@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMeetup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="page-header">
+    <div class="page-shell header-inner">
+        <div>
+            <p class="eyebrow">TechMeetup</p>
+            <h1>Upcoming events</h1>
+            <p class="lede">Browse the event list and register before tickets run out.</p>
+        </div>
+        <button id="refreshButton" class="secondary-button" type="button">Refresh</button>
+    </div>
+</header>
+
+<main class="page-shell page-content">
+    <p id="status" class="status" aria-live="polite"></p>
+
+    <div class="table-wrap">
+        <table class="events-table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Tickets</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="eventsBody"></tbody>
+        </table>
+    </div>
+
+    <p id="emptyState" class="empty-state" hidden>No events are available right now.</p>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
