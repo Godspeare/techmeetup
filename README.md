@@ -31,7 +31,7 @@ The app expects MySQL to be running locally by default:
 - username: `root`
 - password: set `SPRING_DATASOURCE_PASSWORD`
 
-If your database name or username is different, set these environment variables before running:
+If your database URL, username, or password is different, set these environment variables before running:
 
 ```bash
 SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/techmeetup?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
@@ -40,6 +40,8 @@ SPRING_DATASOURCE_PASSWORD=your-password
 ```
 
 I did not hardcode your password in the source. Put it in your run configuration or shell environment.
+
+For Docker or Render, set the same `SPRING_DATASOURCE_*` values in the service environment. Render also provides the `PORT` variable, and the app now binds to it automatically.
 
 ### Run locally
 
@@ -57,6 +59,29 @@ Using Maven:
 
 The server listens on `http://localhost:8080` by default.
 
+## Docker
+
+The backend includes a root-level `Dockerfile` for Render and local container runs.
+
+Build the image:
+
+```bash
+docker build -t techmeetup .
+```
+
+Run it locally:
+
+```bash
+docker run --rm -p 8080:8080 \
+  -e SPRING_DATASOURCE_URL='jdbc:mysql://host.docker.internal:3306/techmeetup?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC' \
+  -e SPRING_DATASOURCE_USERNAME=root \
+  -e SPRING_DATASOURCE_PASSWORD=your-password \
+  techmeetup
+```
+
+If you are connecting to a managed MySQL provider, replace the datasource URL and credentials with that provider's values.
+On Linux, use your database host directly or add `--add-host=host.docker.internal:host-gateway` to the `docker run` command.
+
 ## Frontend template
 
 Files:
@@ -71,7 +96,7 @@ Files:
 const BACKEND_URL = "http://localhost:8080";
 ```
 
-Change that to your deployed Railway URL when you go live.
+Change that to your deployed Render URL when you go live.
 
 ### Local frontend test
 
